@@ -43,7 +43,7 @@ class JdbcMapperTest extends AsyncTest[JdbcTestDB] {
         User(None, "Carl", "Carlson")
       ),
       users.map(_.asFoo) += Foo(User(None, "Lenny", "Leonard")),
-      users.filter(_.last inSet Set("Bouvier", "Ferdinand")).size.result.map(_ shouldBe 1),
+      users.count(_.last inSet Set("Bouvier", "Ferdinand")).result.map(_ shouldBe 1),
       updateQ.update(User(None, "Marge", "Simpson")),
       Query(users.filter(_.id === 1).exists).result.head.map(_ shouldBe true),
       users.filter(_.id between(1, 2)).to[Set].result.map(_ shouldBe Set(User(Some(1), "Homer", "Simpson"), User(Some(2), "Marge", "Simpson"))),

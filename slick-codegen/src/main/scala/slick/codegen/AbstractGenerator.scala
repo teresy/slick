@@ -321,7 +321,7 @@ abstract class AbstractGenerator[Code,TermName,TypeName](model: m.Model)
       def rawName: String = disambiguateTerm({
         val fksToSameTable = foreignKeys.filter(_.referencedTable == referencedTable)
         require(
-          fksToSameTable.filter(_.model.name.isEmpty).size <= 1,
+          fksToSameTable.count(_.model.name.isEmpty) <= 1,
           s"Found multiple unnamed foreign keys to same table, please manually provide names using overrides. ${referencingTable.model.name.table} -> ${referencedTable.model.name.table}"
         )
         val baseName = referencedTable.TableClass.rawName.uncapitalize + "Fk"
